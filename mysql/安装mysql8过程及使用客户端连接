@@ -1,0 +1,40 @@
+## 安装Mysql8并与桌面管理工具连接
+作者原来用的是mysql5.5，但是由于项目需求，需要用utf8mb4_general_ci的编码方式，该编码方式在mysql5.5.3之后的版本才支持。
+我选择是mysql8.0.12进行安装（目前windows最新版本）
+#### 第一步卸载原来版本（mysql5.5）
+1、在“服务”中关闭mysql服务
+```
+我的电脑“右击”出现“管理”，然后选择最后一个选项“服务与应用程序”
+注意：需要检查一下“任务管理器”中是否还存在mysqld的进程，需要关闭
+```
+2、卸载mysql（可以用360卸载）
+3、下载mysql8安装包
+```
+https://dev.mysql.com/downloads/installer/
+```
+![官网下载页面](images/download1.png)
+
+3、进行安装
+```
+安装过程选择“custom”模式，然后选择需要的组件进行即可
+```
+4、利用Navicat进行管理
+
+输入完账号密码后会出现如下提示：
+
+![客户端错误提示](images/client-error.png)
+```
+原因是mysql8的加密规则发生了变化。
+做法：
+1、进入mysql安装目录的bin文件夹下，然后右击在此处打开命令板。
+2、命令行登录mysql进行修改密码
+#登录
+mysql -u root -p
+#更新用户密码
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '新密码';
+#刷新权限
+FLUSH PRIVILEGES;
+```
+5、再次利用Navicat进行数据库登录
+
+#### 到此问题解决
